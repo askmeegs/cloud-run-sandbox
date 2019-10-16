@@ -11,6 +11,9 @@ spec:
     spec:
       containers:
       - image: gcr.io/onlineboutique/frontend:v0.1.2
+        # ports:
+        #   - containerPort: 8080
+        #     name: h2c
         env:
           - name: PRODUCT_CATALOG_SERVICE_ADDR
             value: "productcatalogservice.default.svc.cluster.local:80"
