@@ -6,24 +6,25 @@ metadata:
   labels:
     serving.knative.dev/visibility: cluster-local
 spec:
-  runLatest:
-    configuration:
-      revisionTemplate:
-        spec:
-          container:
-            image: gcr.io/google-samples/microservices-demo/loadgenerator:v0.1.2
-            env:
-            - name: FRONTEND_ADDR
-              value: "frontend:80"
-            - name: USERS
-              value: "10"
-            ports:
-              - containerPort: 8080
-                name: h2c
-            resources:
-              requests:
-                cpu: 100m
-                memory: 64Mi
-              limits:
-                cpu: 200m
-                memory: 128Mi
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containers:
+      - image: gcr.io/google-samples/microservices-demo/loadgenerator:v0.1.2
+        env:
+        - name: FRONTEND_ADDR
+          value: "frontend:80"
+        - name: USERS
+          value: "10"
+        ports:
+          - containerPort: 8080
+            name: h2c
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi

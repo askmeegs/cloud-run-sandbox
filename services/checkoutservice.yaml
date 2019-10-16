@@ -7,6 +7,9 @@ metadata:
     serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
       - image: gcr.io/google-samples/microservices-demo/checkoutservice:v0.1.2
