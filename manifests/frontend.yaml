@@ -1,0 +1,34 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  runLatest:
+    configuration:
+      revisionTemplate:
+        spec:
+          container:
+            image: gcr.io/onlineboutique/frontend:v0.1.2
+            env:
+              - name: PRODUCT_CATALOG_SERVICE_ADDR
+                value: "productcatalogservice.default.svc.cluster.local:80"
+              - name: CURRENCY_SERVICE_ADDR
+                value: "currencyservice.default.svc.cluster.local:80"
+              - name: CART_SERVICE_ADDR
+                value: "cartservice.default.svc.cluster.local:80"
+              - name: RECOMMENDATION_SERVICE_ADDR
+                value: "recommendationservice.default.svc.cluster.local:80"
+              - name: SHIPPING_SERVICE_ADDR
+                value: "shippingservice.default.svc.cluster.local:80"
+              - name: CHECKOUT_SERVICE_ADDR
+                value: "checkoutservice.default.svc.cluster.local:80"
+              - name: AD_SERVICE_ADDR
+                value: "adservice.default.svc.cluster.local:80"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 64Mi
+              limits:
+                cpu: 200m
+                memory: 128Mi

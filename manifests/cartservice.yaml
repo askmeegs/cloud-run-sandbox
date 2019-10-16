@@ -1,0 +1,30 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: cartservice
+  namespace: default
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  runLatest:
+    configuration:
+      revisionTemplate:
+        spec:
+          container:
+            image: gcr.io/google-samples/microservices-demo/cartservice:v0.1.2
+            args: ["-p", "$(PORT)"]
+            ports:
+              - containerPort: 7070
+                name: h2c
+            env:
+              - name: REDIS_ADDR
+                value: "redis-cart:6379"
+              - name: LISTEN_ADDR
+                value: "0.0.0.0"
+            resources:
+              requests:
+                cpu: 200m
+                memory: 64Mi
+              limits:
+                cpu: 300m
+                memory: 128Mi
